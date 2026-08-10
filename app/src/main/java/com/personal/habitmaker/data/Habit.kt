@@ -9,5 +9,9 @@ data class Habit(
     val name: String,
     val colorHex: String,
     val times: List<String>, // "HH:mm" 24h format, sorted
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val hasTimer: Boolean = false,
+    val holdTimeSeconds: Int = 5,
+    val relaxTimeSeconds: Int = 5,
+    val totalSets: Int = 10
 )
