@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import androidx.compose.foundation.Canvas
 
 @Composable
 fun KegelTimerScreen(
@@ -114,7 +115,7 @@ fun KegelTimerScreen(
                 color = Color(0xFFEEEEEE)
             ) {}
 
-            // Progress circle (using canvas-like approach with Box layering)
+            // Progress circle using Canvas
             Canvas(modifier = Modifier.size(250.dp)) {
                 val radius = size.width / 2
                 val strokeWidth = 8.dp.toPx()
@@ -125,13 +126,13 @@ fun KegelTimerScreen(
                     startAngle = -90f,
                     sweepAngle = 360f * animatedProgress,
                     useCenter = false,
-                    size = androidx.compose.ui.geometry.Size(
-                        size.width - strokeWidth,
-                        size.height - strokeWidth
-                    ),
                     topLeft = androidx.compose.ui.geometry.Offset(
                         strokeWidth / 2,
                         strokeWidth / 2
+                    ),
+                    size = androidx.compose.ui.geometry.Size(
+                        size.width - strokeWidth,
+                        size.height - strokeWidth
                     )
                 )
             }
@@ -226,14 +227,4 @@ fun KegelTimerScreen(
             )
         }
     }
-}
-
-@Composable
-private fun Canvas(modifier: Modifier, onDraw: androidx.compose.ui.graphics.drawscope.DrawScope.() -> Unit) {
-    Canvas(modifier = modifier, onDraw = onDraw)
-}
-
-@androidx.compose.runtime.Composable
-private fun Canvas(modifier: Modifier, content: @androidx.compose.runtime.Composable () -> Unit) {
-    androidx.compose.foundation.Canvas(modifier = modifier) {}
 }
