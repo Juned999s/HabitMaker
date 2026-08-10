@@ -55,12 +55,22 @@ class MainActivity : ComponentActivity() {
                 if (showAddEdit) {
                     AddEditHabitScreen(
                         existingHabit = editingHabit,
-                        onSave = { name, color, times ->
+                        onSave = { name, color, times, hasTimer, holdTime, relaxTime, totalSets ->
                             val current = editingHabit
                             if (current != null) {
-                                viewModel.updateHabit(current.copy(name = name, colorHex = color, times = times.sorted()))
+                                viewModel.updateHabit(
+                                    current.copy(
+                                        name = name,
+                                        colorHex = color,
+                                        times = times.sorted(),
+                                        hasTimer = hasTimer,
+                                        holdTimeSeconds = holdTime,
+                                        relaxTimeSeconds = relaxTime,
+                                        totalSets = totalSets
+                                    )
+                                )
                             } else {
-                                viewModel.addHabit(name, color, times)
+                                viewModel.addHabit(name, color, times, hasTimer, holdTime, relaxTime, totalSets)
                             }
                             showAddEdit = false
                             editingHabit = null
