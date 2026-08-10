@@ -43,9 +43,27 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun addHabit(name: String, colorHex: String, times: List<String>) {
+    fun addHabit(
+        name: String,
+        colorHex: String,
+        times: List<String>,
+        hasTimer: Boolean = false,
+        holdTimeSeconds: Int = 0,
+        relaxTimeSeconds: Int = 0,
+        totalSets: Int = 1
+    ) {
         viewModelScope.launch {
-            val id = repository.addHabit(Habit(name = name, colorHex = colorHex, times = times.sorted()))
+            val id = repository.addHabit(
+                Habit(
+                    name = name,
+                    colorHex = colorHex,
+                    times = times.sorted(),
+                    hasTimer = hasTimer,
+                    holdTimeSeconds = holdTimeSeconds,
+                    relaxTimeSeconds = relaxTimeSeconds,
+                    totalSets = totalSets
+                )
+            )
             val habit = repository.getHabitById(id)
             habit?.let { scheduler.scheduleHabit(it) }
         }
