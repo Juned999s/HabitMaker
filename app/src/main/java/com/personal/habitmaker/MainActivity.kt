@@ -19,6 +19,7 @@ import com.personal.habitmaker.data.Habit
 import com.personal.habitmaker.ui.AddEditHabitScreen
 import com.personal.habitmaker.ui.HabitViewModel
 import com.personal.habitmaker.ui.HomeScreen
+import com.personal.habitmaker.ui.KegelTimerScreen
 import com.personal.habitmaker.ui.theme.HabitMakerTheme
 
 class MainActivity : ComponentActivity() {
@@ -51,8 +52,19 @@ class MainActivity : ComponentActivity() {
             HabitMakerTheme {
                 var editingHabit by remember { mutableStateOf<Habit?>(null) }
                 var showAddEdit by remember { mutableStateOf(false) }
+                var showTimer by remember { mutableStateOf<Habit?>(null) }
 
-                if (showAddEdit) {
+                if (showTimer != null) {
+                    val timerHabit = showTimer!!
+                    KegelTimerScreen(
+                        holdTimeSeconds = timerHabit.holdTimeSeconds,
+                        relaxTimeSeconds = timerHabit.relaxTimeSeconds,
+                        totalSets = timerHabit.totalSets,
+                        onBack = {
+                            showTimer = null
+                        }
+                    )
+                } else if (showAddEdit) {
                     AddEditHabitScreen(
                         existingHabit = editingHabit,
                         onSave = { name, color, times, hasTimer, holdTime, relaxTime, totalSets ->
@@ -97,6 +109,14 @@ class MainActivity : ComponentActivity() {
                         onEditHabit = { habit ->
                             editingHabit = habit
                             showAddEdit = true
+                        },
+                        onHabitClick = { habit ->
+                            if (habit.hasTimer) {
+                                showTimer = habit
+                            } else {
+                                editingHabit = habit
+                                showAddEdit = true
+                            }
                         }
                     )
                 }
