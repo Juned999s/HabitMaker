@@ -8,20 +8,6 @@ android {
     namespace = "com.personal.habitmaker"
     compileSdk = 34
 
-    // Fixed debug signing configuration so CI builds use a stable keystore for in-place updates.
-    // Credentials can come from environment variables (recommended) or fall back to the standard
-    // debug values. The keystore file path defaults to <repo-root>/debug.keystore so the workflow
-    // can restore a checked-in or generated keystore to that path.
-    signingConfigs {
-        create("debug") {
-            val keystorePath: String? = System.getenv("DEBUG_KEYSTORE_PATH")
-            storeFile = file(keystorePath ?: "${'$'}{rootProject.projectDir}/debug.keystore")
-            storePassword = System.getenv("DEBUG_KEYSTORE_PASSWORD") ?: "android"
-            keyAlias = System.getenv("DEBUG_KEY_ALIAS") ?: "androiddebugkey"
-            keyPassword = System.getenv("DEBUG_KEY_PASSWORD") ?: "android"
-        }
-    }
-
     defaultConfig {
         applicationId = "com.personal.habitmaker"
         minSdk = 26
@@ -31,11 +17,6 @@ android {
     }
 
     buildTypes {
-        // Ensure debug buildType uses the stable signing config defined above.
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
-        }
-
         getByName("release") {
             isMinifyEnabled = false
         }
