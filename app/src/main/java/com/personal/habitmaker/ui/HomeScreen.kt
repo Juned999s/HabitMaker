@@ -48,7 +48,8 @@ import com.personal.habitmaker.ui.theme.TextSecondary
 fun HomeScreen(
     viewModel: HabitViewModel,
     onAddHabit: () -> Unit,
-    onEditHabit: (Habit) -> Unit
+    onEditHabit: (Habit) -> Unit,
+    onHabitClick: (Habit) -> Unit
 ) {
     val habits by viewModel.habits.collectAsState()
     val completions by viewModel.todayCompletions.collectAsState()
@@ -88,7 +89,7 @@ fun HomeScreen(
                         doneTimes = doneTimes,
                         streak = streaks[habit.id] ?: 0,
                         onToggleTime = { time, done -> viewModel.toggleCompletion(habit.id, time, done) },
-                        onClick = { onEditHabit(habit) }
+                        onClick = { onHabitClick(habit) }
                     )
                 }
             }
